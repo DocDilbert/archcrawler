@@ -1,17 +1,19 @@
 #include <fmt/core.h>
+#include <spdlog/common.h>
 #include <spdlog/spdlog.h>
+#include <spdlog/stopwatch.h>
 #include <stdio.h>
 
 #include <cxxopts.hpp>
+#include <filesystem>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <typeinfo>
 
-#include "lib1/lib1.hpp"
+#include "list_dir_fs_service.h"
+#include "regscan/get_file_list_uc.h"
 
-void PrintHelloWorld() {
-  int dec = 5;
-  fmt::print("Hello, world {}!\n", dec);
-}
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
     std::cout << "C++17\n";
@@ -25,23 +27,12 @@ void PrintCppStandard() {
     std::cout << "pre-standard C++\n";
 }
 
-void Test() {
-  PrintHelloWorld();
-  Lib1 lib1;
-  lib1.PrintMessage();
-  PrintCppStandard();
-}
-
 int main(int argc, const char* argv[]) {
-  spdlog::info("Welcome to spdlog!");
-  spdlog::error("Some error message with arg: {}", 1);
   cxxopts::Options options("MyProgram", "One line description of MyProgram");
 
   // clang-format off
   options.add_options()
-    ("d,debug", "Enable debugging") // a bool parameter
-    ("t,test", "Test case") // a bool parameter
-    ("f,file", "File name", cxxopts::value<std::string>())
+    ("l,filelist", "Print out file list to be read") // a bool parameter
     ("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
     ("h,help", "Print usage")
     ;
@@ -56,12 +47,40 @@ int main(int argc, const char* argv[]) {
     std::cerr << "usage: dog [options] <input_file> ...\n";
     return EXIT_FAILURE;
   }
+  PrintCppStandard();
 
+  // print out help if necessary
   if (result.count("help")) {
     std::cout << options.help() << std::endl;
     exit(0);
   }
-  if (result.count("test")) {
-    Test();
+  // Enable logging
+  switch (result.count("verbose")) {
+    case 0:
+      spdlog::set_level(spdlog::level::off);
+      break;
+    case 1:
+      spdlog::set_level(spdlog::level::info);
+      break;
+    case 2:
+      spdlog::set_level(spdlog::level::debug);
+      break;
+    default:
+      spdlog::set_level(spdlog::level::trace);
+      break;
+  }
+
+  ListDirFsService list_dir_service;
+
+  GetFileListUseCase get_file_list_uc(list_dir_service);
+
+  std::vector<std::string> allowed_extensions;
+  auto file_list = get_file_list_uc.GetFileList(".", allowed_extensions);
+
+  if (result.count("filelist")) {
+    // print out filelist
+    for (auto const& i : file_list) {
+      std::cout << i << "\n";
+    }
   }
 }

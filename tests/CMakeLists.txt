@@ -1,3 +1,8 @@
+if (CMAKE_GENERATOR MATCHES "Visual Studio")
+    # For Windows: Prevent overriding the parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+endif()
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest" "extern/googletest")
 
 mark_as_advanced(

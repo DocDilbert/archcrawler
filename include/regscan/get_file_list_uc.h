@@ -9,10 +9,11 @@ class GetFileListUseCase {
  public:
   typedef std::vector<std::string> str_vector;
   GetFileListUseCase(IListDirService& list_dir_service);
-  str_vector GetFileList(std::string path, str_vector allowed_extensions);
+
+  str_vector GetFileList(std::string path, str_vector extensions);
 
  private:
-  str_vector GetFileListFromDir(std::string path, const str_vector& allowed_extensions);
+  str_vector GetFileListFromDir(std::string path, const str_vector& extensions);
   IListDirService& list_dir_service_;
 };
 

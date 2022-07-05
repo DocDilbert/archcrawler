@@ -24,7 +24,7 @@ class ListDirFsService : public IListDirService {
       de.fullpath = dir_entry.path().string();
       if (dir_entry.is_directory()) {
         de.is_dir = true;
-      } else {
+      } else if (dir_entry.is_regular_file()) {
         de.is_file = true;
       }
       dirs.push_back(de);

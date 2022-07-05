@@ -2,12 +2,8 @@
 
 #include <string>
 #include <vector>
+#include "regscan/dir_entry.h"
 
-struct DirEntry {
-  bool is_file;
-  bool is_dir;
-  std::string fullpath;
-};
 
 class IListDirService {
  public:

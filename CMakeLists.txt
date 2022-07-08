@@ -41,6 +41,12 @@ add_subdirectory(extern/fmt)
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
 add_subdirectory(extern/spdlog)
 
+SET(PCRE2_BUILD_PCRE2GREP OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
+SET(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
+SET(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
+
+add_subdirectory(extern/pcre2)
+
 add_subdirectory(src)
 
 add_subdirectory(app)

@@ -23,6 +23,8 @@
 #include "regscan/memory_loader/load_filelist_uc.h"
 #include "regscan/regscan_config.h"
 
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include "pcre2.h"
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
     std::cout << "C++17\n";

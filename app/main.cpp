@@ -1,5 +1,6 @@
 #include <fmt/core.h>
 #include <spdlog/common.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/stopwatch.h>
 #include <stdio.h>
@@ -7,12 +8,16 @@
 #include <cxxopts.hpp>
 #include <filesystem>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <typeinfo>
 
+#include "app_config.h"
 #include "list_dir_fs_service.h"
-#include "regscan/get_file_list_uc.h"
+#include "regscan/file_list/dir_black_list_uc.h"
+#include "regscan/file_list/get_file_list_uc.h"
+#include "regscan/regscan_config.h"
 
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
@@ -54,6 +59,8 @@ int main(int argc, const char* argv[]) {
     std::cout << options.help() << std::endl;
     exit(0);
   }
+  auto app_logger = spdlog::stdout_color_mt(app_logger_name);
+  auto regscan_file_list_logger = spdlog::stdout_color_mt(regscan_file_list_logger_name);
   // Enable logging
   switch (result.count("verbose")) {
     case 0:
@@ -69,13 +76,17 @@ int main(int argc, const char* argv[]) {
       spdlog::set_level(spdlog::level::trace);
       break;
   }
+  app_logger->set_level(spdlog::level::off);
+
+  std::vector<std::shared_ptr<IDirEntryPredicate>> dir_entry_predicates;
+  std::vector<std::string> dir_blacklist = {".\\.git"};
+
+  dir_entry_predicates.push_back(std::make_unique<DirBlackListUc>(dir_blacklist));
 
   ListDirFsService list_dir_service;
+  GetFileListUseCase get_file_list_uc(list_dir_service, dir_entry_predicates);
 
-  GetFileListUseCase get_file_list_uc(list_dir_service);
-
-  std::vector<std::string> allowed_extensions;
-  auto file_list = get_file_list_uc.GetFileList(".", allowed_extensions);
+  auto file_list = get_file_list_uc.GetFileList(".");
 
   if (result.count("filelist")) {
     // print out filelist

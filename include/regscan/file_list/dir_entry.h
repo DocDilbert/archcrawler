@@ -1,9 +1,10 @@
 #pragma once
 
+#include <filesystem>
 #include <string>
 
 struct DirEntry {
   bool is_file;
   bool is_dir;
-  std::string fullpath;
+  std::filesystem::path path; 
 };

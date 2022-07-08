@@ -2,8 +2,8 @@
 
 #include <string>
 #include <vector>
-#include "regscan/dir_entry.h"
 
+#include "regscan/file_list/dir_entry.h"
 
 class IListDirService {
  public:

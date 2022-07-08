@@ -1,5 +1,5 @@
 # Create the library 
-add_library(regscan get_file_list_uc.cpp ../include/regscan/get_file_list_uc.h)
+add_library(regscan file_list/get_file_list_uc.cpp file_list/dir_black_list_uc.cpp)
 
 # Build the library with C++17 
 target_compile_features(regscan PRIVATE cxx_std_20)

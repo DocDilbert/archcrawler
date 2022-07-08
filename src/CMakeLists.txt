@@ -4,6 +4,9 @@ add_library(regscan
   file_list/path_beginswith_blacklist_uc.cpp
   file_list/path_contains_blacklist_uc.cpp
   file_list/file_extension_whitelist_uc.cpp
+
+  # --- 
+  memory_loader/load_filelist_uc.cpp 
 )
 
 # Build the library with C++17 

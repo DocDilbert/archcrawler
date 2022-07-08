@@ -20,7 +20,7 @@ class ListDirFsService : public IListDirService {
     spdlog::stopwatch sw;
     const std::filesystem::path sandbox{path};
 
-    logger_->trace("ListDirFsService::ListDir({})", path);
+    logger_->debug("ListDirFsService::ListDir({})", path);
 
     // directory_iterator can be iterated using a range-for loop
     for (auto const& dir_entry : std::filesystem::directory_iterator{sandbox}) {

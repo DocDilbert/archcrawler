@@ -15,8 +15,10 @@
 
 #include "app_config.h"
 #include "list_dir_fs_service.h"
-#include "regscan/file_list/dir_black_list_uc.h"
+#include "regscan/file_list/file_extension_whitelist_uc.h"
 #include "regscan/file_list/get_file_list_uc.h"
+#include "regscan/file_list/path_beginswith_blacklist_uc.h"
+#include "regscan/file_list/path_contains_blacklist_uc.h"
 #include "regscan/regscan_config.h"
 
 void PrintCppStandard() {
@@ -79,14 +81,21 @@ int main(int argc, const char* argv[]) {
   app_logger->set_level(spdlog::level::off);
 
   std::vector<std::shared_ptr<IDirEntryPredicate>> dir_entry_predicates;
-  std::vector<std::string> dir_blacklist = {".\\.git"};
 
-  dir_entry_predicates.push_back(std::make_unique<DirBlackListUc>(dir_blacklist));
+  std::vector<std::string> beginswith_blacklist = {".\\.git", ".\\tools", ".\\doc", ".\\libs"};
+  dir_entry_predicates.push_back(std::make_unique<PathBeginswithBlacklistUc>(beginswith_blacklist));
+
+  std::vector<std::string> contains_blacklist = {"__pycache__"};
+  dir_entry_predicates.push_back(std::make_unique<PathContainsBlacklistUc>(contains_blacklist));
+
+  std::vector<std::string> extension_whitelist = {".cpp", ".h"};
+  dir_entry_predicates.push_back(std::make_unique<FileExtensionWhitelistUc>(extension_whitelist));
 
   ListDirFsService list_dir_service;
   GetFileListUseCase get_file_list_uc(list_dir_service, dir_entry_predicates);
 
   auto file_list = get_file_list_uc.GetFileList(".");
+  spdlog::info("Collected a list of {} filenames", file_list.size());
 
   if (result.count("filelist")) {
     // print out filelist

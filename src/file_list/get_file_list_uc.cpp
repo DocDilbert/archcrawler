@@ -14,7 +14,7 @@ GetFileListUseCase::GetFileListUseCase(IListDirService& list_dir_service, GetFil
 
 GetFileListUseCase::str_vector GetFileListUseCase::GetFileList(std::string path) {
   spdlog::stopwatch sw;
-  logger_->info("GetFileListUseCase::GetFileList({})", path);
+  logger_->info("GetFileListUseCase::GetFileList(\"{}\")", path);
   auto ret = GetFileListFromDir(path);
   logger_->debug("GetFileListUseCase::GetFileList elapsed={:.3}", sw);
   return ret;

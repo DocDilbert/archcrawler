@@ -21,18 +21,28 @@
 #include "regscan/memory_loader/file_buf.h"
 #include "regscan/memory_loader/i_load_file_service.h"
 
+#ifndef _MSC_VER
+errno_t fopen_s(FILE **f, const char *name, const char *mode) {
+  errno_t ret = 0;
+  assert(f);
+  *f = fopen(name, mode);
+  /* Can't be sure about 1-to-1 mapping of errno and MS' errno_t */
+  if (!*f) ret = errno;
+  return ret;
+}
+#endif
+
 class LoadFileFsService : public ILoadFileService {
  public:
   LoadFileFsService() { logger_ = spdlog::get(app_logger_name); }
 
   std::shared_ptr<FileBuf> LoadFile(std::string fname) override {
-    FILE* fp;
-    //auto err = fopen_s(&fp, fname.c_str(), "r");
-    fp = fopen(fname.c_str(), "r");
-    //if (err != 0) {
+    FILE *fp;
+    auto err = fopen_s(&fp, fname.c_str(), "r");
+    if (err != 0) {
       // handle error
-    //  return nullptr;
-    //}
+      //  return nullptr;
+    }
     fseek(fp, 0, SEEK_END);
     long fsize = ftell(fp);
     fseek(fp, 0, SEEK_SET); /* same as rewind(f); */

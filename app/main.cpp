@@ -16,15 +16,13 @@
 #include "app_config.h"
 #include "list_dir_fs_service.h"
 #include "load_file_fs_service.h"
+#include "regex.h"
 #include "regscan/file_list/file_extension_whitelist_uc.h"
 #include "regscan/file_list/get_file_list_uc.h"
 #include "regscan/file_list/path_beginswith_blacklist_uc.h"
 #include "regscan/file_list/path_contains_blacklist_uc.h"
 #include "regscan/memory_loader/load_filelist_uc.h"
 #include "regscan/regscan_config.h"
-
-#define PCRE2_CODE_UNIT_WIDTH 8
-#include "pcre2.h"
 
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
@@ -85,7 +83,7 @@ int main(int argc, const char* argv[]) {
   }
 
   regscan_file_list_logger->set_level(spdlog::level::off);
-  app_logger->set_level(spdlog::level::off);
+  // app_logger->set_level(spdlog::level::off);
 
   spdlog::info("Collecting a list of files to be loaded.");
   std::vector<std::shared_ptr<IDirEntryPredicate>> dir_entry_predicates;
@@ -115,87 +113,28 @@ int main(int argc, const char* argv[]) {
       std::cout << i << "\n";
     }
   }
+  try {
+    RegexFactory regex_fac;
+    std::unique_ptr<IMatcher> regex_matcher = regex_fac.Create("HE(LL)O");
 
-  pcre2_code* re;
-  PCRE2_SPTR pattern; /* PCRE2_SPTR is a pointer to unsigned code units of */
-  PCRE2_SPTR name_table;
+    const char* subject = "HELLO WORLD 1234 HELLO 4321";
 
-  int crlf_is_newline;
-  int errornumber;
-  int find_all;
-  int i;
-  int namecount;
-  int name_entry_size;
-  int rc;
-  int utf8;
+    auto iter = regex_matcher->Search(subject);
 
-  uint32_t option_bits;
-  uint32_t newline;
-
-  PCRE2_SIZE erroroffset;
-  PCRE2_SIZE* ovector;
-
-  pcre2_match_data* match_data;
-  pattern = (PCRE2_SPTR) "HELLO";
-  re = pcre2_compile(pattern,               /* the pattern */
-                     PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminated */
-                     0,                     /* default options */
-                     &errornumber,          /* for error number */
-                     &erroroffset,          /* for error offset */
-                     NULL);                 /* use default compile context */
-  if (re == NULL) {
-    PCRE2_UCHAR buffer[256];
-    pcre2_get_error_message(errornumber, buffer, sizeof(buffer));
-    printf("PCRE2 compilation failed at offset %d: %s\n", (int)erroroffset, buffer);
-    return 1;
-  }
-
-  auto subject = (PCRE2_SPTR) "ABC HELLO WORLD";
-  auto subject_length = strlen((char*)subject);
-  match_data = pcre2_match_data_create_from_pattern(re, NULL);
-  rc = pcre2_match(re,             /* the compiled pattern */
-                   subject,        /* the subject string */
-                   subject_length, /* the length of the subject */
-                   0,              /* start at offset 0 in the subject */
-                   0,              /* default options */
-                   match_data,     /* block for storing the result */
-                   NULL);          /* use default match context */
-
-  if (rc < 0) {
-    switch (rc) {
-      case PCRE2_ERROR_NOMATCH:
-        printf("No match\n");
-        break;
-      /*
-      Handle other special cases if you like
-      */
-      default:
-        printf("Matching error %d\n", rc);
-        break;
+    if (iter->IsDone()) {
+      spdlog::info("No match");
     }
-    pcre2_match_data_free(match_data); /* Release memory used for the match */
-    pcre2_code_free(re);               /* data and the compiled pattern. */
-    return 1;
+    int i = 0;
+    for (; !iter->IsDone(); iter->Next()) {
+      auto match = iter->Current();
+      char* substring_start = (char*)subject + match.begin_pos;
+
+      auto match_str = std::string(substring_start, match.length);
+      spdlog::info("{}: {}", i, match_str);
+      i++;
+    }
+
+  } catch (RegexCompileException& ex) {
+    spdlog::error("PCRE2 compilation failed at offset {}:{} \n", ex.error_offset, ex.error_message);
   }
-
-  /* Match succeded. Get a pointer to the output vector, where string offsets are
-  stored. */
-
-  ovector = pcre2_get_ovector_pointer(match_data);
-  /* The output vector wasn't big enough. This should not happen, because we used
-  pcre2_match_data_create_from_pattern() above. */
-
-  printf("\nMatch succeeded at offset %d\n", (int)ovector[0]);
-  if (rc == 0) printf("ovector was not big enough for all the captured substrings\n");
-
-  /* Show substrings stored in the output vector by number. Obviously, in a real
-  application you might want to do things other than print them. */
-
-  for (i = 0; i < rc; i++) {
-    PCRE2_SPTR substring_start = subject + ovector[2 * i];
-    size_t substring_length = ovector[2 * i + 1] - ovector[2 * i];
-    printf("%2d: %.*s\n", i, (int)substring_length, (char*)substring_start);
-  }
-  pcre2_match_data_free(match_data);
-  pcre2_code_free(re);
 }

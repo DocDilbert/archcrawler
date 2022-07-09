@@ -1,5 +1,5 @@
 
-add_executable(app main.cpp)
+add_executable(app main.cpp regex.cpp)
 
 SET_PROPERTY(TARGET app
   PROPERTY COMPILE_DEFINITIONS PCRE2_CODE_UNIT_WIDTH=8)

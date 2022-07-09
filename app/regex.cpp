@@ -14,15 +14,15 @@ struct Regex::impl {
   pcre2_match_data* match_data = nullptr;
 };
 
-class RegexMatchIter : public IRegexMatchIter {
+class MatchIter : public IMatchIter {
  public:
-  RegexMatchIter(pcre2_match_data* match_data, int no_of_matches) : match_data_(match_data), no_of_matches_(no_of_matches) {
+  MatchIter(pcre2_match_data* match_data, int no_of_matches) : match_data_(match_data), no_of_matches_(no_of_matches) {
     idx_ = 0;
     if (no_of_matches_ != 0) {
       ovector_ = pcre2_get_ovector_pointer(match_data_);
     }
   }
-  virtual ~RegexMatchIter() {}
+  virtual ~MatchIter() {}
   bool IsDone() override {
     if (idx_ >= no_of_matches_) {
       return true;
@@ -31,8 +31,8 @@ class RegexMatchIter : public IRegexMatchIter {
   }
   void Next() override { idx_++; }
 
-  RegexMatch Current() override {
-    RegexMatch rmatch;
+  Match Current() override {
+    Match rmatch;
     rmatch.begin_pos = ovector_[idx_ * 2];
     rmatch.end_pos = ovector_[idx_ * 2 + 1];
     rmatch.length = rmatch.end_pos - rmatch.begin_pos;
@@ -77,7 +77,7 @@ Regex::~Regex() {
   pcre2_code_free(pimpl_->re);
 }
 
-std::unique_ptr<IRegexMatchIter> Regex::Search(const char* subject) {
+std::unique_ptr<IMatchIter> Regex::Search(const char* subject) {
   // free last match if available
   pcre2_match_data_free(pimpl_->match_data);
 
@@ -109,7 +109,7 @@ std::unique_ptr<IRegexMatchIter> Regex::Search(const char* subject) {
         throw RegexSearchException(rc);
         break;
     }
-    return std::make_unique<RegexMatchIter>(nullptr, 0);
+    return std::make_unique<MatchIter>(nullptr, 0);
   }
 
   /* Match succeded. Get a pointer to the output vector, where string offsets are
@@ -123,6 +123,6 @@ std::unique_ptr<IRegexMatchIter> Regex::Search(const char* subject) {
     logger_->error("ovector was not big enough for all the captured substring");
   }
 
-  return std::make_unique<RegexMatchIter>(pimpl_->match_data, rc);
+  return std::make_unique<MatchIter>(pimpl_->match_data, rc);
 }
 

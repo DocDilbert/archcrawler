@@ -5,6 +5,10 @@
 #include <memory>
 #include <string>
 
+#include "regscan/matchers/i_match_iter.h"
+#include "regscan/matchers/i_matcher.h"
+#include "regscan/matchers/i_matcher_factory.h"
+
 struct RegexCompileException : public std::exception {
   RegexCompileException(int error_offset, std::string error_message) : error_offset(error_offset), error_message(error_message) {}
 
@@ -17,38 +21,12 @@ struct RegexSearchException : public std::exception {
   int error_code;
 };
 
-struct RegexMatch {
-  int begin_pos;
-  int end_pos;
-  int length;
-};
-
-class IRegexMatchIter {
- public:
-  virtual ~IRegexMatchIter() {}
-  virtual void Next() = 0;
-  virtual RegexMatch Current() = 0;
-  virtual bool IsDone() = 0;
-};
-
-class IMatcher {
- public:
-  virtual ~IMatcher(){};
-  virtual std::unique_ptr<IRegexMatchIter> Search(const char* subject) = 0;
-};
-
-class IMatcherFactory {
- public:
-  virtual ~IMatcherFactory() {}
-  virtual std::unique_ptr<IMatcher> Create(std::string pattern) = 0;
-};
-
 class Regex : public IMatcher {
  public:
   Regex(std::string pattern);
   virtual ~Regex();
 
-  virtual std::unique_ptr<IRegexMatchIter> Search(const char* subject);
+  virtual std::unique_ptr<IMatchIter> Search(const char* subject);
 
  private:
   struct impl;

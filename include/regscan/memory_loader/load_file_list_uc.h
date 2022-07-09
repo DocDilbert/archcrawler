@@ -8,12 +8,12 @@
 class LoadFileListUc : private MemoryLoaderLogger {
  public:
   typedef std::vector<std::string> str_vector;
-  typedef std::unique_ptr<FileBuf> file_ptr;
-  typedef std::vector<file_ptr> file_list;
+  typedef std::unique_ptr<FileBuf> file_buf_ptr;
+  typedef std::vector<file_buf_ptr> file_buf_list;
 
   LoadFileListUc(ILoadFileService& load_file_service);
 
-  file_list Load(str_vector fname_list);
+  file_buf_list Load(str_vector fname_list);
 
  private:
   ILoadFileService& load_file_service_;

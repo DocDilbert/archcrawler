@@ -21,7 +21,9 @@
 #include "regscan/file_list/get_file_list_uc.h"
 #include "regscan/file_list/path_beginswith_blacklist_uc.h"
 #include "regscan/file_list/path_contains_blacklist_uc.h"
-#include "regscan/memory_loader/load_filelist_uc.h"
+#include "regscan/matchers/search_file_buf_uc.h"
+#include "regscan/matchers/search_in_file_buf_list_uc.h"
+#include "regscan/memory_loader/load_file_list_uc.h"
 #include "regscan/regscan_config.h"
 
 void PrintCppStandard() {
@@ -66,6 +68,8 @@ int main(int argc, const char* argv[]) {
   auto app_logger = spdlog::stdout_color_mt(app_logger_name);
   auto regscan_file_list_logger = spdlog::stdout_color_mt(regscan_file_list_logger_name);
   auto regscan_memory_loader_logger = spdlog::stdout_color_mt(regscan_memory_loader_logger_name);
+  auto regscan_matchers_logger = spdlog::stdout_color_mt(regscan_matchers_logger_name);
+
   // Enable logging
   switch (result.count("verbose")) {
     case 0:
@@ -83,7 +87,7 @@ int main(int argc, const char* argv[]) {
   }
 
   regscan_file_list_logger->set_level(spdlog::level::off);
-  // app_logger->set_level(spdlog::level::off);
+  app_logger->set_level(spdlog::level::off);
 
   spdlog::info("Collecting a list of files to be loaded.");
   std::vector<std::shared_ptr<IDirEntryPredicate>> dir_entry_predicates;
@@ -105,34 +109,20 @@ int main(int argc, const char* argv[]) {
 
   LoadFileFsService load_file_fs_service;
   LoadFileListUc load_file_list_uc(load_file_fs_service);
-  load_file_list_uc.Load(file_list);
+  auto file_buf_list = load_file_list_uc.Load(file_list);
 
+  // print out filelist
   if (result.count("filelist")) {
-    // print out filelist
     for (auto const& i : file_list) {
       std::cout << i << "\n";
     }
   }
   try {
     RegexFactory regex_fac;
-    std::unique_ptr<IMatcher> regex_matcher = regex_fac.Create("HE(LL)O");
+    SearchInFileBufListUc search_in_file_buf_list;
+    SearchFileBufUc search_file_buf_uc(regex_fac.Create("PCRE2"));
 
-    const char* subject = "HELLO WORLD 1234 HELLO 4321";
-
-    auto iter = regex_matcher->Search(subject);
-
-    if (iter->IsDone()) {
-      spdlog::info("No match");
-    }
-    int i = 0;
-    for (; !iter->IsDone(); iter->Next()) {
-      auto match = iter->Current();
-      char* substring_start = (char*)subject + match.begin_pos;
-
-      auto match_str = std::string(substring_start, match.length);
-      spdlog::info("{}: {}", i, match_str);
-      i++;
-    }
+    search_in_file_buf_list.Search(search_file_buf_uc, file_buf_list);
 
   } catch (RegexCompileException& ex) {
     spdlog::error("PCRE2 compilation failed at offset {}:{} \n", ex.error_offset, ex.error_message);

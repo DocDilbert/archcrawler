@@ -6,7 +6,11 @@ add_library(regscan
   file_list/file_extension_whitelist_uc.cpp
 
   # --- 
-  memory_loader/load_filelist_uc.cpp 
+  memory_loader/load_file_list_uc.cpp 
+
+  # ---
+  matchers/search_file_buf_uc.cpp
+  matchers/search_in_file_buf_list_uc.cpp
 )
 
 # Build the library with C++17 

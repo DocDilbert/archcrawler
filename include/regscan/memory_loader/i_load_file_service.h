@@ -4,5 +4,5 @@
 
 class ILoadFileService {
  public:
-  virtual std::shared_ptr<FileBuf> LoadFile(std::string fname) = 0;
+  virtual std::unique_ptr<FileBuf> LoadFile(std::string fname) = 0;
 };

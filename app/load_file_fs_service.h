@@ -36,7 +36,7 @@ class LoadFileFsService : public ILoadFileService {
  public:
   LoadFileFsService() { logger_ = spdlog::get(app_logger_name); }
 
-  std::shared_ptr<FileBuf> LoadFile(std::string fname) override {
+  std::unique_ptr<FileBuf> LoadFile(std::string fname) override {
     FILE *fp;
     auto err = fopen_s(&fp, fname.c_str(), "r");
     if (err != 0) {
@@ -47,7 +47,7 @@ class LoadFileFsService : public ILoadFileService {
     long fsize = ftell(fp);
     fseek(fp, 0, SEEK_SET); /* same as rewind(f); */
 
-    auto file = std::make_shared<FileBuf>(fname, fsize);
+    auto file = std::make_unique<FileBuf>(fname, fsize);
     fread(file->GetBufferPtr(), fsize + 1, 1, fp);  // +1 because of null termination
     fclose(fp);
 

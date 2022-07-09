@@ -10,9 +10,9 @@ LoadFileListUc::file_list LoadFileListUc::Load(str_vector fname_list) {
   file_list re;
   long used_memory = 0;
   for (auto& i : fname_list) {
-    std::shared_ptr<FileBuf> file_buf = load_file_service_.LoadFile(i);
+    std::unique_ptr<FileBuf> file_buf = load_file_service_.LoadFile(i);
     used_memory += file_buf->GetBufferSize();
-    re.push_back(file_buf);
+    re.push_back(std::move(file_buf));
   }
 
   logger_->debug("LoadFileListUc::Load elapsed={:.3}, Memory allocated = {} bytes", sw, used_memory);

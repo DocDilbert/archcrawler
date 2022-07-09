@@ -25,6 +25,7 @@
 
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include "pcre2.h"
+
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
     std::cout << "C++17\n";
@@ -114,4 +115,87 @@ int main(int argc, const char* argv[]) {
       std::cout << i << "\n";
     }
   }
+
+  pcre2_code* re;
+  PCRE2_SPTR pattern; /* PCRE2_SPTR is a pointer to unsigned code units of */
+  PCRE2_SPTR name_table;
+
+  int crlf_is_newline;
+  int errornumber;
+  int find_all;
+  int i;
+  int namecount;
+  int name_entry_size;
+  int rc;
+  int utf8;
+
+  uint32_t option_bits;
+  uint32_t newline;
+
+  PCRE2_SIZE erroroffset;
+  PCRE2_SIZE* ovector;
+
+  pcre2_match_data* match_data;
+  pattern = (PCRE2_SPTR) "HELLO";
+  re = pcre2_compile(pattern,               /* the pattern */
+                     PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminated */
+                     0,                     /* default options */
+                     &errornumber,          /* for error number */
+                     &erroroffset,          /* for error offset */
+                     NULL);                 /* use default compile context */
+  if (re == NULL) {
+    PCRE2_UCHAR buffer[256];
+    pcre2_get_error_message(errornumber, buffer, sizeof(buffer));
+    printf("PCRE2 compilation failed at offset %d: %s\n", (int)erroroffset, buffer);
+    return 1;
+  }
+
+  auto subject = (PCRE2_SPTR) "ABC HELLO WORLD";
+  auto subject_length = strlen((char*)subject);
+  match_data = pcre2_match_data_create_from_pattern(re, NULL);
+  rc = pcre2_match(re,             /* the compiled pattern */
+                   subject,        /* the subject string */
+                   subject_length, /* the length of the subject */
+                   0,              /* start at offset 0 in the subject */
+                   0,              /* default options */
+                   match_data,     /* block for storing the result */
+                   NULL);          /* use default match context */
+
+  if (rc < 0) {
+    switch (rc) {
+      case PCRE2_ERROR_NOMATCH:
+        printf("No match\n");
+        break;
+      /*
+      Handle other special cases if you like
+      */
+      default:
+        printf("Matching error %d\n", rc);
+        break;
+    }
+    pcre2_match_data_free(match_data); /* Release memory used for the match */
+    pcre2_code_free(re);               /* data and the compiled pattern. */
+    return 1;
+  }
+
+  /* Match succeded. Get a pointer to the output vector, where string offsets are
+  stored. */
+
+  ovector = pcre2_get_ovector_pointer(match_data);
+  /* The output vector wasn't big enough. This should not happen, because we used
+  pcre2_match_data_create_from_pattern() above. */
+
+  printf("\nMatch succeeded at offset %d\n", (int)ovector[0]);
+  if (rc == 0) printf("ovector was not big enough for all the captured substrings\n");
+
+  /* Show substrings stored in the output vector by number. Obviously, in a real
+  application you might want to do things other than print them. */
+
+  for (i = 0; i < rc; i++) {
+    PCRE2_SPTR substring_start = subject + ovector[2 * i];
+    size_t substring_length = ovector[2 * i + 1] - ovector[2 * i];
+    printf("%2d: %.*s\n", i, (int)substring_length, (char*)substring_start);
+  }
+  pcre2_match_data_free(match_data);
+  pcre2_code_free(re);
 }

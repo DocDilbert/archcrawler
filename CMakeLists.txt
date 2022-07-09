@@ -35,22 +35,20 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 endif()
 
-add_subdirectory(extern/cxxopts)
-add_subdirectory(extern/fmt)
+add_subdirectory(extern/cxxopts EXCLUDE_FROM_ALL)
+add_subdirectory(extern/fmt EXCLUDE_FROM_ALL)
 
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
-add_subdirectory(extern/spdlog)
+add_subdirectory(extern/spdlog EXCLUDE_FROM_ALL)
 
 SET(PCRE2_BUILD_PCRE2GREP OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
 SET(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
 SET(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
-
-add_subdirectory(extern/pcre2)
+add_subdirectory(extern/pcre2 EXCLUDE_FROM_ALL)
 
 add_subdirectory(src)
 
 add_subdirectory(app)
-
 
 
 # Testing only available if this is the main app

@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <windows.h>
 
 #include <algorithm>
 #include <cstring>
@@ -28,11 +27,12 @@ class LoadFileFsService : public ILoadFileService {
 
   std::shared_ptr<FileBuf> LoadFile(std::string fname) override {
     FILE* fp;
-    auto err = fopen_s(&fp, fname.c_str(), "r");
-    if (err != 0) {
+    //auto err = fopen_s(&fp, fname.c_str(), "r");
+    fp = fopen(fname.c_str(), "r");
+    //if (err != 0) {
       // handle error
-      return nullptr;
-    }
+    //  return nullptr;
+    //}
     fseek(fp, 0, SEEK_END);
     long fsize = ftell(fp);
     fseek(fp, 0, SEEK_SET); /* same as rewind(f); */

@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 3.2.0)
 
+include(cmake/print_target_properties.cmake)
+
 # Project name and a few useful settings. Other commands can pick up the results
 project(
   TestProject 
@@ -8,6 +10,7 @@ project(
   LANGUAGES CXX)
 
 set (CMAKE_CXX_STANDARD 11)
+
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -35,24 +38,42 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 endif()
 
+# --------------
+# CXXOPTS
+# --------------
 add_subdirectory(extern/cxxopts EXCLUDE_FROM_ALL)
+
+# --------------
+# FMT
+# --------------
 add_subdirectory(extern/fmt EXCLUDE_FROM_ALL)
 
+# --------------
+# SPDLOG 
+# --------------
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
 add_subdirectory(extern/spdlog EXCLUDE_FROM_ALL)
 
-SET(PCRE2_BUILD_PCRE2GREP OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
-SET(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
-SET(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
-add_subdirectory(extern/pcre2 EXCLUDE_FROM_ALL)
+# --------------
+# PCRE
+# --------------
+set(PCRE2_BUILD_PCRE2GREP OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
+set(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
+set(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
+set(PCRE2_SHOW_REPORT OFF CACHE BOOL "")
 
+add_subdirectory(extern/pcre2 EXCLUDE_FROM_ALL)
+# Add missing include directories that the library can be used by this project
+target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern/pcre2/ )
+
+# --------------
 add_subdirectory(src)
+#print_target_properties(regscan)
 
 add_subdirectory(app)
 
 
 # Testing only available if this is the main app
-# Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
 if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)
   include(GoogleTest)
   add_subdirectory(tests)

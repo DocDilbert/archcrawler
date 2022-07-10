@@ -7,7 +7,7 @@
 #include "regscan/matchers/i_register_matcher_factory.h"
 #include "regscan/matchers/matcher_factory_registry.h"
 
-class UcRegisterMatcherFactory : public IRegisterMatcherFactoryUc {
+class UcRegisterMatcherFactory : public IRegisterMatcherFactory {
  public:
   UcRegisterMatcherFactory(MatcherFactoryRegistry& matcher_factory_registry) : matcher_factory_registry_(matcher_factory_registry) {}
 

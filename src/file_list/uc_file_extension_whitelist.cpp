@@ -1,8 +1,8 @@
 #include "regscan/file_list/uc_file_extension_whitelist.h"
 
-FileExtensionWhitelistUc::FileExtensionWhitelistUc(str_vec white_list) : FileListLogger(), white_list_(white_list) {}
+UcFileExtensionWhitelist::UcFileExtensionWhitelist(str_vec white_list) : FileListLogger(), white_list_(white_list) {}
 
-bool FileExtensionWhitelistUc::is_rejected(const DirEntry& dir_entry) {
+bool UcFileExtensionWhitelist::is_rejected(const DirEntry& dir_entry) {
   bool reject = false;
   if (dir_entry.is_file) {
     reject = true;  // forbid every file with extensions not on the whitelist
@@ -15,7 +15,7 @@ bool FileExtensionWhitelistUc::is_rejected(const DirEntry& dir_entry) {
     }
 
     if (reject) {
-      logger_->trace("FileExtensionWhitelistUc::is_rejected -> True for {}", dir_entry.path.string());
+      logger_->trace("UcFileExtensionWhitelist::is_rejected -> True for {}", dir_entry.path.string());
     }
   }
   return reject;

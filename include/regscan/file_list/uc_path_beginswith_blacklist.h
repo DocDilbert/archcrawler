@@ -8,11 +8,11 @@
 #include "regscan/file_list/file_list_logger.h"
 #include "regscan/file_list/i_dir_entry_predicate.h"
 
-class PathBeginswithBlacklistUc : public IDirEntryPredicate, private FileListLogger {
+class UcPathBeginswithBlacklist : public IDirEntryPredicate, private FileListLogger {
  public:
   typedef std::vector<std::string> str_vec;
 
-  PathBeginswithBlacklistUc(str_vec black_list);
+  UcPathBeginswithBlacklist(str_vec black_list);
 
   bool is_rejected(const DirEntry& dir_entry) override;
 

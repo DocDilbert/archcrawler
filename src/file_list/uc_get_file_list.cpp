@@ -1,25 +1,26 @@
+#include "regscan/file_list/uc_get_file_list.h"
+
 #include <spdlog/spdlog.h>
 #include <spdlog/stopwatch.h>
 
 #include <iostream>
 
-#include "regscan/file_list/uc_get_file_list.h"
 #include "regscan/regscan_config.h"
 
-GetFileListUseCase::GetFileListUseCase(IListDirService& list_dir_service, GetFileListUseCase::dir_entry_predicates_type dir_entry_predicates)
+UcGetFileList::UcGetFileList(IListDirService& list_dir_service, UcGetFileList::dir_entry_predicates_type dir_entry_predicates)
     : FileListLogger(), list_dir_service_(list_dir_service), dir_entry_predicates_(dir_entry_predicates) {
   logger_ = spdlog::get(regscan_file_list_logger_name);
 }
 
-GetFileListUseCase::str_vector GetFileListUseCase::GetFileList(std::string path) {
+UcGetFileList::str_vector UcGetFileList::GetFileList(std::string path) {
   spdlog::stopwatch sw;
-  logger_->info("GetFileListUseCase::GetFileList(\"{}\")", path);
+  logger_->info("UcGetFileList::GetFileList(\"{}\")", path);
   auto ret = GetFileListFromDir(path);
-  logger_->debug("GetFileListUseCase::GetFileList elapsed={:.3}", sw);
+  logger_->debug("UcGetFileList::GetFileList elapsed={:.3}", sw);
   return ret;
 }
 
-GetFileListUseCase::str_vector GetFileListUseCase::GetFileListFromDir(std::string path) {
+UcGetFileList::str_vector UcGetFileList::GetFileListFromDir(std::string path) {
   str_vector ret;
   auto dirlist = list_dir_service_.ListDir(path);
   for (auto const& dir_entry : dirlist) {

@@ -1,8 +1,8 @@
 #include "regscan/matchers/uc_search_in_file_buf_list.h"
 
-SearchInFileBufListUc::SearchInFileBufListUc(ISearchFileBuf& search_file_buf_uc) : MatchersLogger(), search_file_buf_uc_(search_file_buf_uc) {}
+UcSearchInFileBufList::UcSearchInFileBufList(ISearchFileBuf& search_file_buf_uc) : MatchersLogger(), search_file_buf_uc_(search_file_buf_uc) {}
 
-void SearchInFileBufListUc::Search(IMatcher& matcher, const file_buf_list& fblist) {
+void UcSearchInFileBufList::Search(IMatcher& matcher, const file_buf_list& fblist) {
   for (auto& fb : fblist) {
     auto iter = search_file_buf_uc_.Search(matcher, fb);
 

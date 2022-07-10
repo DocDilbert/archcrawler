@@ -98,16 +98,16 @@ int main(int argc, const char* argv[]) {
   std::vector<std::shared_ptr<IDirEntryPredicate>> dir_entry_predicates;
 
   std::vector<std::string> beginswith_blacklist = {".\\.git", ".\\tools", ".\\doc", ".\\libs"};
-  dir_entry_predicates.push_back(std::make_unique<PathBeginswithBlacklistUc>(beginswith_blacklist));
+  dir_entry_predicates.push_back(std::make_unique<UcPathBeginswithBlacklist>(beginswith_blacklist));
 
   std::vector<std::string> contains_blacklist = {"__pycache__"};
-  dir_entry_predicates.push_back(std::make_unique<PathContainsBlacklistUc>(contains_blacklist));
+  dir_entry_predicates.push_back(std::make_unique<UcPathContainsBlacklist>(contains_blacklist));
 
   std::vector<std::string> extension_whitelist = {".cpp", ".h"};
-  dir_entry_predicates.push_back(std::make_unique<FileExtensionWhitelistUc>(extension_whitelist));
+  dir_entry_predicates.push_back(std::make_unique<UcFileExtensionWhitelist>(extension_whitelist));
 
   ListDirFsService list_dir_service;
-  GetFileListUseCase get_file_list_uc(list_dir_service, dir_entry_predicates);
+  UcGetFileList get_file_list_uc(list_dir_service, dir_entry_predicates);
 
   auto file_list = get_file_list_uc.GetFileList(".");
   spdlog::info("Collected a list of {} filenames", file_list.size());
@@ -124,13 +124,12 @@ int main(int argc, const char* argv[]) {
   }
   try {
     MatcherFactoryRegistry matcher_factory_registry;
-    RegisterMatcherFactoryUc register_matcher_factory_uc(matcher_factory_registry);
+    UcRegisterMatcherFactory register_matcher_factory_uc(matcher_factory_registry);
     register_matcher_factory_uc.Register("regex", std::make_unique<RegexFactory>());
-    CreateAbstractMatcherUc create_abstract_matcher_uc(matcher_factory_registry);
+    UcCreateAbstractMatcher create_abstract_matcher_uc(matcher_factory_registry);
 
-    RegexFactory regex_fac;
-    SearchFileBufUc search_file_buf_uc;
-    SearchInFileBufListUc search_in_file_buf_list(search_file_buf_uc);
+    UcSearchFileBuf search_file_buf_uc;
+    UcSearchInFileBufList search_in_file_buf_list(search_file_buf_uc);
 
     UcSearchRegexInFilebufList search_regex_in_fbufs(create_abstract_matcher_uc, search_in_file_buf_list);
     search_regex_in_fbufs.Do("PCRE2", file_buf_list);

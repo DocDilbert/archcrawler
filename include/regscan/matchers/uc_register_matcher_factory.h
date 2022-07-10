@@ -7,9 +7,9 @@
 #include "regscan/matchers/i_register_matcher_factory_uc.h"
 #include "regscan/matchers/matcher_factory_registry.h"
 
-class RegisterMatcherFactoryUc : public IRegisterMatcherFactoryUc {
+class UcRegisterMatcherFactory : public IRegisterMatcherFactoryUc {
  public:
-  RegisterMatcherFactoryUc(MatcherFactoryRegistry& matcher_factory_registry) : matcher_factory_registry_(matcher_factory_registry) {}
+  UcRegisterMatcherFactory(MatcherFactoryRegistry& matcher_factory_registry) : matcher_factory_registry_(matcher_factory_registry) {}
 
   void Register(std::string matcher_factory_name, std::unique_ptr<IMatcherFactory> matcher_factory) override {
     matcher_factory_registry_.Register(matcher_factory_name, std::move(matcher_factory));

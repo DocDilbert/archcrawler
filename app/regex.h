@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "regscan/matchers/i_match_iter.h"
+#include "regscan/matchers/i_iter.h"
 #include "regscan/matchers/i_matcher.h"
 #include "regscan/matchers/i_matcher_factory.h"
 

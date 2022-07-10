@@ -113,7 +113,7 @@ int main(int argc, const char* argv[]) {
   spdlog::info("Collected a list of {} filenames", file_list.size());
 
   LoadFileFsService load_file_fs_service;
-  LoadFileListUc load_file_list_uc(load_file_fs_service);
+  UcLoadFileList load_file_list_uc(load_file_fs_service);
   auto file_buf_list = load_file_list_uc.Load(file_list);
 
   // print out filelist

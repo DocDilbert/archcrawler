@@ -1,12 +1,12 @@
-#include <spdlog/stopwatch.h>
-
 #include "regscan/memory_loader/uc_load_file_list.h"
 
-LoadFileListUc::LoadFileListUc(ILoadFileService& load_file_service) : MemoryLoaderLogger(), load_file_service_(load_file_service) {}
+#include <spdlog/stopwatch.h>
 
-LoadFileListUc::file_buf_list LoadFileListUc::Load(str_vector fname_list) {
+UcLoadFileList::UcLoadFileList(ILoadFileService& load_file_service) : MemoryLoaderLogger(), load_file_service_(load_file_service) {}
+
+UcLoadFileList::file_buf_list UcLoadFileList::Load(str_vector fname_list) {
   spdlog::stopwatch sw;
-  logger_->info("LoadFileListUc::Load - Loading {} files to memory ...", fname_list.size());
+  logger_->info("UcLoadFileList::Load - Loading {} files to memory ...", fname_list.size());
   file_buf_list re;
   long used_memory = 0;
   for (auto& i : fname_list) {
@@ -15,6 +15,6 @@ LoadFileListUc::file_buf_list LoadFileListUc::Load(str_vector fname_list) {
     re.push_back(std::move(file_buf));
   }
 
-  logger_->debug("LoadFileListUc::Load elapsed={:.3}, Memory allocated = {} bytes", sw, used_memory);
+  logger_->debug("UcLoadFileList::Load elapsed={:.3}, Memory allocated = {} bytes", sw, used_memory);
   return re;
 }

@@ -14,7 +14,7 @@ struct Regex::impl {
   pcre2_match_data* match_data = nullptr;
 };
 
-class MatchIter : public IMatchIter {
+class MatchIter : public IIter<Match> {
  public:
   MatchIter(pcre2_match_data* match_data, int no_of_matches) : match_data_(match_data), no_of_matches_(no_of_matches) {
     idx_ = 0;
@@ -77,7 +77,7 @@ Regex::~Regex() {
   pcre2_code_free(pimpl_->re);
 }
 
-std::unique_ptr<IMatchIter> Regex::Search(const char* subject) {
+std::unique_ptr<IIter<Match>> Regex::Search(const char* subject) {
   // free last match if available
   pcre2_match_data_free(pimpl_->match_data);
 

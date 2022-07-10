@@ -2,9 +2,10 @@
 
 #include "regscan/matchers/match.h"
 
-class IMatchIter {
+template <class T>
+class IIter {
  public:
-  virtual ~IMatchIter() {}
+  virtual ~IIter() {}
   virtual void Next() = 0;
   virtual Match Current() = 0;
   virtual bool IsDone() = 0;

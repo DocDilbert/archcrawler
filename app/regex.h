@@ -26,7 +26,7 @@ class Regex : public IMatcher {
   Regex(std::string pattern);
   virtual ~Regex();
 
-  virtual std::unique_ptr<IMatchIter> Search(const char* subject);
+  virtual std::unique_ptr<IIter<Match>> Search(const char* subject);
 
  private:
   struct impl;

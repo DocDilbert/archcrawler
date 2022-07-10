@@ -6,5 +6,5 @@
 class IMatcher {
  public:
   virtual ~IMatcher(){};
-  virtual std::unique_ptr<IMatchIter> Search(const char* subject) = 0;
+  virtual std::unique_ptr<IIter<Match>> Search(const char* subject) = 0;
 };

@@ -1,16 +1,16 @@
 # Create the library 
 add_library(regscan 
-  file_list/get_file_list_uc.cpp 
-  file_list/path_beginswith_blacklist_uc.cpp
-  file_list/path_contains_blacklist_uc.cpp
-  file_list/file_extension_whitelist_uc.cpp
+  file_list/uc_get_file_list.cpp 
+  file_list/uc_path_beginswith_blacklist.cpp
+  file_list/uc_path_contains_blacklist.cpp
+  file_list/uc_file_extension_whitelist.cpp
 
   # --- 
-  memory_loader/load_file_list_uc.cpp 
+  memory_loader/uc_load_file_list.cpp 
 
   # ---
-  matchers/search_file_buf_uc.cpp
-  matchers/search_in_file_buf_list_uc.cpp
+  matchers/uc_search_file_buf.cpp
+  matchers/uc_search_in_file_buf_list.cpp
 )
 
 # Build the library with C++17 

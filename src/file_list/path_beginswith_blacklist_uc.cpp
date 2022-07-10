@@ -1,4 +1,4 @@
-#include "regscan/file_list/path_beginswith_blacklist_uc.h"
+#include "regscan/file_list/uc_path_beginswith_blacklist.h"
 
 PathBeginswithBlacklistUc::PathBeginswithBlacklistUc(str_vec black_list) : FileListLogger(), black_list_(black_list) {}
 

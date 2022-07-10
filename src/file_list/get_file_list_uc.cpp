@@ -1,10 +1,9 @@
-#include "regscan/file_list/get_file_list_uc.h"
-
 #include <spdlog/spdlog.h>
 #include <spdlog/stopwatch.h>
 
 #include <iostream>
 
+#include "regscan/file_list/uc_get_file_list.h"
 #include "regscan/regscan_config.h"
 
 GetFileListUseCase::GetFileListUseCase(IListDirService& list_dir_service, GetFileListUseCase::dir_entry_predicates_type dir_entry_predicates)

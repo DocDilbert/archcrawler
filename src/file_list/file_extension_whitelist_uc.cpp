@@ -1,4 +1,4 @@
-#include "regscan/file_list/file_extension_whitelist_uc.h"
+#include "regscan/file_list/uc_file_extension_whitelist.h"
 
 FileExtensionWhitelistUc::FileExtensionWhitelistUc(str_vec white_list) : FileListLogger(), white_list_(white_list) {}
 

@@ -1,6 +1,6 @@
-#include "regscan/memory_loader/load_file_list_uc.h"
-
 #include <spdlog/stopwatch.h>
+
+#include "regscan/memory_loader/uc_load_file_list.h"
 
 LoadFileListUc::LoadFileListUc(ILoadFileService& load_file_service) : MemoryLoaderLogger(), load_file_service_(load_file_service) {}
 

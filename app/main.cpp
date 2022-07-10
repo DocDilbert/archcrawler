@@ -17,10 +17,10 @@
 #include "list_dir_fs_service.h"
 #include "load_file_fs_service.h"
 #include "regex.h"
-#include "regscan/file_list/file_extension_whitelist_uc.h"
-#include "regscan/file_list/get_file_list_uc.h"
-#include "regscan/file_list/path_beginswith_blacklist_uc.h"
-#include "regscan/file_list/path_contains_blacklist_uc.h"
+#include "regscan/file_list/uc_file_extension_whitelist.h"
+#include "regscan/file_list/uc_get_file_list.h"
+#include "regscan/file_list/uc_path_beginswith_blacklist.h"
+#include "regscan/file_list/uc_path_contains_blacklist.h"
 #include "regscan/matchers/i_register_matcher_factory_uc.h"
 #include "regscan/matchers/matcher_factory_registry.h"
 #include "regscan/matchers/uc_create_abstract_matcher.h"
@@ -28,7 +28,7 @@
 #include "regscan/matchers/uc_search_file_buf.h"
 #include "regscan/matchers/uc_search_in_file_buf_list.h"
 #include "regscan/matchers/uc_search_regex_in_filebuf_list.h"
-#include "regscan/memory_loader/load_file_list_uc.h"
+#include "regscan/memory_loader/uc_load_file_list.h"
 #include "regscan/regscan_config.h"
 
 void PrintCppStandard() {

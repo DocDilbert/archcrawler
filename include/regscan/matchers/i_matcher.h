@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "regscan/matchers/i_iter.h"
+#include "regscan/matchers/match.h"
 
 class IMatcher {
  public:

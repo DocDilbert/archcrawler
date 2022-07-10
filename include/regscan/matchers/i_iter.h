@@ -1,7 +1,5 @@
 #pragma once
 
-#include "regscan/matchers/match.h"
-
 template <class T>
 class IIter {
  public:

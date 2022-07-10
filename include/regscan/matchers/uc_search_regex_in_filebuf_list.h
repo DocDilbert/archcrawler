@@ -1,6 +1,6 @@
 #pragma once
 
-#include "regscan/matchers/i_create_abstract_matcher_uc.h"
+#include "regscan/matchers/i_create_abstract_matcher.h"
 #include "regscan/matchers/i_search_in_file_buf_list.h"
 #include "regscan/memory_loader/file_buf.h"
 

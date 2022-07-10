@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "regscan/matchers/i_register_matcher_factory_uc.h"
+#include "regscan/matchers/i_register_matcher_factory.h"
 #include "regscan/matchers/matcher_factory_registry.h"
 
 class UcRegisterMatcherFactory : public IRegisterMatcherFactoryUc {

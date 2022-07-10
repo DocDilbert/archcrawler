@@ -21,7 +21,7 @@
 #include "regscan/file_list/uc_get_file_list.h"
 #include "regscan/file_list/uc_path_beginswith_blacklist.h"
 #include "regscan/file_list/uc_path_contains_blacklist.h"
-#include "regscan/matchers/i_register_matcher_factory_uc.h"
+#include "regscan/matchers/i_register_matcher_factory.h"
 #include "regscan/matchers/matcher_factory_registry.h"
 #include "regscan/matchers/uc_create_abstract_matcher.h"
 #include "regscan/matchers/uc_register_matcher_factory.h"

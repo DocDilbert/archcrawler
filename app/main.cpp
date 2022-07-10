@@ -23,13 +23,11 @@
 #include "regscan/file_list/path_contains_blacklist_uc.h"
 #include "regscan/matchers/create_abstract_matcher_uc.h"
 #include "regscan/matchers/i_register_matcher_factory_uc.h"
-#include "regscan/matchers/matcher_builder_uc.h"
 #include "regscan/matchers/matcher_factory_registry.h"
-#include "regscan/matchers/matcher_registry.h"
 #include "regscan/matchers/register_matcher_factory_uc.h"
-#include "regscan/matchers/register_matcher_uc.h"
-#include "regscan/matchers/search_file_buf_uc.h"
-#include "regscan/matchers/search_in_file_buf_list_uc.h"
+#include "regscan/matchers/uc_search_file_buf.h"
+#include "regscan/matchers/uc_search_in_file_buf_list.h"
+#include "regscan/matchers/uc_search_regex_in_filebuf_list.h"
 #include "regscan/memory_loader/load_file_list_uc.h"
 #include "regscan/regscan_config.h"
 
@@ -128,19 +126,14 @@ int main(int argc, const char* argv[]) {
     MatcherFactoryRegistry matcher_factory_registry;
     RegisterMatcherFactoryUc register_matcher_factory_uc(matcher_factory_registry);
     register_matcher_factory_uc.Register("regex", std::make_unique<RegexFactory>());
-
-    MatcherRegistry matcher_registry;
-    RegisterMatcherUc register_matcher_uc(matcher_registry);
     CreateAbstractMatcherUc create_abstract_matcher_uc(matcher_factory_registry);
 
-    MatcherBuilderUc matcher_builder_uc(create_abstract_matcher_uc, register_matcher_uc);
-    matcher_builder_uc.Build("regex", "regex1", "PCRE2");
-
     RegexFactory regex_fac;
-    SearchInFileBufListUc search_in_file_buf_list;
-    SearchFileBufUc search_file_buf_uc(regex_fac.Create("PCRE2"));
+    SearchFileBufUc search_file_buf_uc;
+    SearchInFileBufListUc search_in_file_buf_list(search_file_buf_uc);
 
-    search_in_file_buf_list.Search(search_file_buf_uc, file_buf_list);
+    UcSearchRegexInFilebufList search_regex_in_fbufs(create_abstract_matcher_uc, search_in_file_buf_list);
+    search_regex_in_fbufs.Do("PCRE2", file_buf_list);
 
   } catch (RegexCompileException& ex) {
     spdlog::error("PCRE2 compilation failed at offset {}:{} \n", ex.error_offset, ex.error_message);

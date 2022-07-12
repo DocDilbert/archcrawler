@@ -9,8 +9,7 @@ class MatchInFileIter : public IIter<MatchInFile> {
   typedef UcSearchInFileBufList::file_buf_list file_buf_list;
   typedef file_buf_list::const_iterator file_buf_iter;
 
-  MatchInFileIter(ISearchFileBuf& search_file_buf, IMatcher& matcher, const file_buf_list& fblist)
-      : search_file_buf_(search_file_buf), matcher_(matcher), fblist_(fblist) {
+  MatchInFileIter(ISearchFileBuf& search_file_buf, IMatcher& matcher, const file_buf_list& fblist) : search_file_buf_(search_file_buf), matcher_(matcher) {
     fit_ = fblist.cbegin();
     fend_ = fblist.cend();
 
@@ -32,7 +31,9 @@ class MatchInFileIter : public IIter<MatchInFile> {
     }
   }
   virtual ~MatchInFileIter() {}
+
   bool IsDone() override { return (fit_ == fend_); }
+
   void Next() override { advance_iterators(true); }
 
   MatchInFile Current() override {
@@ -48,7 +49,6 @@ class MatchInFileIter : public IIter<MatchInFile> {
  private:
   ISearchFileBuf& search_file_buf_;
   IMatcher& matcher_;
-  const UcSearchInFileBufList::file_buf_list& fblist_;
   file_buf_iter fit_;
   file_buf_iter fend_;
   std::unique_ptr<IIter<Match>> mfbuf_iter_;
@@ -58,24 +58,5 @@ UcSearchInFileBufList::UcSearchInFileBufList(ISearchFileBuf& search_file_buf_uc)
 
 std::unique_ptr<IIter<MatchInFile>> UcSearchInFileBufList::Search(IMatcher& matcher, const file_buf_list& fblist) {
   auto iter = std::make_unique<MatchInFileIter>(search_file_buf_uc_, matcher, fblist);
-#ifdef _1_
-  for (auto& fb : fblist) {
-    auto iter = search_file_buf_uc_.Search(matcher, fb);
-
-    if (iter->IsDone()) {
-      logger_->trace("No match");
-    }
-    int i = 0;
-    char* subject = fb->GetBufferPtr();
-    for (; !iter->IsDone(); iter->Next()) {
-      auto match = iter->Current();
-      char* substring_start = (char*)subject + match.begin_pos;
-
-      auto match_str = std::string(substring_start, match.length);
-      logger_->trace("{}: {} - {}", i, match.begin_pos, match_str);
-      i++;
-    }
-  }
-#endif
   return iter;
 }

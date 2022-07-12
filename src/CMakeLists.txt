@@ -11,6 +11,7 @@ add_library(regscan
   # ---
   matchers/uc_search_file_buf.cpp
   matchers/uc_search_in_file_buf_list.cpp
+  matchers/uc_search_regex_in_filebuf_list.cpp
 )
 
 # Build the library with C++17 

@@ -41,18 +41,18 @@ endif()
 # --------------
 # CXXOPTS
 # --------------
-add_subdirectory(extern/cxxopts EXCLUDE_FROM_ALL)
+add_subdirectory(extern/cxxopts)
 
 # --------------
 # FMT
 # --------------
-add_subdirectory(extern/fmt EXCLUDE_FROM_ALL)
+add_subdirectory(extern/fmt)
 
 # --------------
 # SPDLOG 
 # --------------
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
-add_subdirectory(extern/spdlog EXCLUDE_FROM_ALL)
+add_subdirectory(extern/spdlog)
 
 # --------------
 # PCRE
@@ -62,7 +62,7 @@ set(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided 
 set(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
 set(PCRE2_SHOW_REPORT OFF CACHE BOOL "")
 
-add_subdirectory(extern/pcre2 EXCLUDE_FROM_ALL)
+add_subdirectory(extern/pcre2)
 # Add missing include directories that the library can be used by this project
 target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern/pcre2/ )
 

@@ -12,7 +12,7 @@ class UcSearchInFileBufList : private MatchersLogger, public ISearchInFileBufLis
  public:
   UcSearchInFileBufList(ISearchFileBuf& search_file_buf_uc);
 
-  void Search(IMatcher& matcher, const file_buf_list& fblist) override;
+  std::unique_ptr<IIter<MatchInFile>> Search(IMatcher& matcher, const file_buf_list& fblist) override;
 
  private:
   ISearchFileBuf& search_file_buf_uc_;

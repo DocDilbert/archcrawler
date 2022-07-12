@@ -132,7 +132,8 @@ int main(int argc, const char* argv[]) {
     UcSearchInFileBufList search_in_file_buf_list(search_file_buf_uc);
 
     UcSearchRegexInFilebufList search_regex_in_fbufs(create_abstract_matcher_uc, search_in_file_buf_list);
-    search_regex_in_fbufs.Do("PCRE2", file_buf_list);
+    search_regex_in_fbufs.Do("bsl::", file_buf_list);
+
 
   } catch (RegexCompileException& ex) {
     spdlog::error("PCRE2 compilation failed at offset {}:{} \n", ex.error_offset, ex.error_message);

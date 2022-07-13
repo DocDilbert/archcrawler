@@ -41,7 +41,7 @@ class MatchInFileIter : public IIter<MatchInFile> {
     MatchInFile match_in_file;
 
     match_in_file.filename = fb->GetFilename();
-    match_in_file.match_group = mfbuf_iter_->Current().groups[0];
+    match_in_file.match = mfbuf_iter_->Current();
 
     return match_in_file;
   }

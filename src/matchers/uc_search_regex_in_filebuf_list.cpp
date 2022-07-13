@@ -17,8 +17,8 @@ void UcSearchRegexInFilebufList::Do(std::string pattern, const file_buf_list& fb
   int matches = 0;
   for (; !iter->IsDone(); iter->Next()) {
     auto match_in_file = iter->Current();
-    auto match = match_in_file.match_group;
-    logger_->trace("{}: {} - {}", match_in_file.filename, match.begin_pos, match.end_pos);
+    auto match_g0 = match_in_file.match.groups[0];
+    logger_->trace("{}: {} - {}", match_in_file.filename, match_g0.begin_pos, match_g0.end_pos);
     matches++;
   }
 

@@ -15,9 +15,10 @@ class MatchInFileIter : public IIter<MatchInFile> {
 
     auto& fb = *fit_;
     mfbuf_iter_ = search_file_buf_.Search(matcher, fb);
-    advance_iterators(false);
+    Advance_iterators(false);
   }
-  void advance_iterators(bool next_match_iter) {
+
+  void Advance_iterators(bool next_match_iter) {
     if (next_match_iter) {
       mfbuf_iter_->Next();  // Next buffer entry
     }
@@ -30,11 +31,12 @@ class MatchInFileIter : public IIter<MatchInFile> {
       mfbuf_iter_ = search_file_buf_.Search(matcher_, fb);
     }
   }
+
   virtual ~MatchInFileIter() {}
 
   bool IsDone() override { return (fit_ == fend_); }
 
-  void Next() override { advance_iterators(true); }
+  void Next() override { Advance_iterators(true); }
 
   MatchInFile Current() override {
     auto& fb = *fit_;

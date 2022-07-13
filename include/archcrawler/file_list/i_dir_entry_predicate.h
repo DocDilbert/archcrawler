@@ -1,6 +1,6 @@
 #pragma once
 
-#include "regscan/file_list/dir_entry.h"
+#include "archcrawler/file_list/dir_entry.h"
 
 class IDirEntryPredicate {
  public:

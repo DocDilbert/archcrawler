@@ -1,15 +1,15 @@
-#include "regscan/file_list/uc_get_file_list.h"
+#include "archcrawler/file_list/uc_get_file_list.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/stopwatch.h>
 
 #include <iostream>
 
-#include "regscan/regscan_config.h"
+#include "archcrawler/archcrawler_config.h"
 
 UcGetFileList::UcGetFileList(IListDirService& list_dir_service, UcGetFileList::dir_entry_predicates_type dir_entry_predicates)
     : FileListLogger(), list_dir_service_(list_dir_service), dir_entry_predicates_(dir_entry_predicates) {
-  logger_ = spdlog::get(regscan_file_list_logger_name);
+  logger_ = spdlog::get(archcrawler_file_list_logger_name);
 }
 
 UcGetFileList::str_vector UcGetFileList::GetFileList(std::string path) {

@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include "regscan/matchers/i_matcher.h"
-#include "regscan/matchers/i_matcher_factory.h"
-#include "regscan/matchers/matchers_logger.h"
+#include "archcrawler/matchers/i_matcher.h"
+#include "archcrawler/matchers/i_matcher_factory.h"
+#include "archcrawler/matchers/matchers_logger.h"
 
 class MatcherFactoryRegistry : MatchersLogger {
  public:

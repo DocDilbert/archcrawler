@@ -18,8 +18,8 @@
 #include <string>
 
 #include "app_config.h"
-#include "regscan/memory_loader/file_buf.h"
-#include "regscan/memory_loader/i_load_file_service.h"
+#include "archcrawler/memory_loader/file_buf.h"
+#include "archcrawler/memory_loader/i_load_file_service.h"
 
 #ifndef _MSC_VER
 errno_t fopen_s(FILE **f, const char *name, const char *mode) {

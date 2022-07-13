@@ -1,9 +1,9 @@
 #pragma once
 
-#include "regscan/matchers/i_create_abstract_matcher.h"
-#include "regscan/matchers/i_search_in_file_buf_list.h"
-#include "regscan/matchers/matchers_logger.h"
-#include "regscan/memory_loader/file_buf.h"
+#include "archcrawler/matchers/i_create_abstract_matcher.h"
+#include "archcrawler/matchers/i_search_in_file_buf_list.h"
+#include "archcrawler/matchers/matchers_logger.h"
+#include "archcrawler/memory_loader/file_buf.h"
 
 class UcSearchRegexInFilebufList : public MatchersLogger {
  public:

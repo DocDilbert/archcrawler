@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "regscan/file_list/dir_entry.h"
+#include "archcrawler/file_list/dir_entry.h"
 
 class IListDirService {
  public:

@@ -1,4 +1,4 @@
-#include "regscan/file_list/uc_path_contains_blacklist.h"
+#include "archcrawler/file_list/uc_path_contains_blacklist.h"
 
 UcPathContainsBlacklist::UcPathContainsBlacklist(str_vec black_list) : FileListLogger(), black_list_(black_list) {}
 

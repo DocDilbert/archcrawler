@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "regscan/matchers/i_create_abstract_matcher.h"
-#include "regscan/matchers/matcher_factory_registry.h"
+#include "archcrawler/matchers/i_create_abstract_matcher.h"
+#include "archcrawler/matchers/matcher_factory_registry.h"
 
 class UcCreateAbstractMatcher : public ICreateAbstractMatcherUc {
  public:

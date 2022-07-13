@@ -1,8 +1,8 @@
 #pragma once
 
-#include "regscan/matchers/i_matcher.h"
-#include "regscan/matchers/match.h"
-#include "regscan/memory_loader/file_buf.h"
+#include "archcrawler/matchers/i_matcher.h"
+#include "archcrawler/matchers/match.h"
+#include "archcrawler/memory_loader/file_buf.h"
 
 class ISearchFileBuf {
  public:

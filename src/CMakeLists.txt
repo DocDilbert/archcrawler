@@ -1,5 +1,5 @@
 # Create the library 
-add_library(regscan 
+add_library(archcrawler 
   file_list/uc_get_file_list.cpp 
   file_list/uc_path_beginswith_blacklist.cpp
   file_list/uc_path_contains_blacklist.cpp
@@ -15,11 +15,11 @@ add_library(regscan
 )
 
 # Build the library with C++17 
-target_compile_features(regscan PRIVATE cxx_std_20)
+target_compile_features(archcrawler PRIVATE cxx_std_20)
 
 # Add the include directories and make them known to other targets (PUBLIC)
-target_include_directories(regscan PUBLIC ../include)
+target_include_directories(archcrawler PUBLIC ../include)
 
 
-target_link_libraries(regscan PRIVATE fmt spdlog)
+target_link_libraries(archcrawler PRIVATE fmt spdlog)
 

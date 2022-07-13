@@ -5,9 +5,9 @@
 #include <memory>
 #include <string>
 
-#include "regscan/matchers/i_iter.h"
-#include "regscan/matchers/i_matcher.h"
-#include "regscan/matchers/i_matcher_factory.h"
+#include "archcrawler/matchers/i_iter.h"
+#include "archcrawler/matchers/i_matcher.h"
+#include "archcrawler/matchers/i_matcher_factory.h"
 
 struct RegexCompileException : public std::exception {
   RegexCompileException(int error_offset, std::string error_message) : error_offset(error_offset), error_message(error_message) {}

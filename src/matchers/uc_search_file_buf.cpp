@@ -1,6 +1,6 @@
-#include "regscan/matchers/uc_search_file_buf.h"
+#include "archcrawler/matchers/uc_search_file_buf.h"
 
-#include "regscan/matchers/match.h"
+#include "archcrawler/matchers/match.h"
 
 class SingleMatchIter : public IIter<Match> {
  public:

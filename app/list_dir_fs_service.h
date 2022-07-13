@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "app_config.h"
-#include "regscan/file_list/i_list_dir_service.h"
+#include "archcrawler/file_list/i_list_dir_service.h"
 
 class ListDirFsService : public IListDirService {
  public:

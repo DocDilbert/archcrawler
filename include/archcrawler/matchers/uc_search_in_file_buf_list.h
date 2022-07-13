@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 
-#include "regscan/matchers/i_matcher.h"
-#include "regscan/matchers/i_matcher_factory.h"
-#include "regscan/matchers/i_search_file_buf.h"
-#include "regscan/matchers/i_search_in_file_buf_list.h"
-#include "regscan/matchers/matchers_logger.h"
-#include "regscan/memory_loader/file_buf.h"
+#include "archcrawler/matchers/i_matcher.h"
+#include "archcrawler/matchers/i_matcher_factory.h"
+#include "archcrawler/matchers/i_search_file_buf.h"
+#include "archcrawler/matchers/i_search_in_file_buf_list.h"
+#include "archcrawler/matchers/matchers_logger.h"
+#include "archcrawler/memory_loader/file_buf.h"
 
 class UcSearchInFileBufList : private MatchersLogger, public ISearchInFileBufList {
  public:

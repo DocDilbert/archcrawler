@@ -1,9 +1,9 @@
 #pragma once
 
-#include "regscan/matchers/i_matcher.h"
-#include "regscan/memory_loader/file_buf.h"
-#include "regscan/matchers/i_iter.h"
-#include "regscan/matchers/match_in_file.h"
+#include "archcrawler/matchers/i_matcher.h"
+#include "archcrawler/memory_loader/file_buf.h"
+#include "archcrawler/matchers/i_iter.h"
+#include "archcrawler/matchers/match_in_file.h"
 
 class ISearchInFileBufList {
  public:

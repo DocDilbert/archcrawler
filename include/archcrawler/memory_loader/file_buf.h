@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
 
-#include "regscan/memory_loader/memory_loader_logger.h"
+#include "archcrawler/memory_loader/memory_loader_logger.h"
 
 class FileBuf : private MemoryLoaderLogger {
  public:

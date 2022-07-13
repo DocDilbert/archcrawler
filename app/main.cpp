@@ -17,19 +17,19 @@
 #include "list_dir_fs_service.h"
 #include "load_file_fs_service.h"
 #include "regex.h"
-#include "regscan/file_list/uc_file_extension_whitelist.h"
-#include "regscan/file_list/uc_get_file_list.h"
-#include "regscan/file_list/uc_path_beginswith_blacklist.h"
-#include "regscan/file_list/uc_path_contains_blacklist.h"
-#include "regscan/matchers/i_register_matcher_factory.h"
-#include "regscan/matchers/matcher_factory_registry.h"
-#include "regscan/matchers/uc_create_abstract_matcher.h"
-#include "regscan/matchers/uc_register_matcher_factory.h"
-#include "regscan/matchers/uc_search_file_buf.h"
-#include "regscan/matchers/uc_search_in_file_buf_list.h"
-#include "regscan/matchers/uc_search_regex_in_filebuf_list.h"
-#include "regscan/memory_loader/uc_load_file_list.h"
-#include "regscan/regscan_config.h"
+#include "archcrawler/file_list/uc_file_extension_whitelist.h"
+#include "archcrawler/file_list/uc_get_file_list.h"
+#include "archcrawler/file_list/uc_path_beginswith_blacklist.h"
+#include "archcrawler/file_list/uc_path_contains_blacklist.h"
+#include "archcrawler/matchers/i_register_matcher_factory.h"
+#include "archcrawler/matchers/matcher_factory_registry.h"
+#include "archcrawler/matchers/uc_create_abstract_matcher.h"
+#include "archcrawler/matchers/uc_register_matcher_factory.h"
+#include "archcrawler/matchers/uc_search_file_buf.h"
+#include "archcrawler/matchers/uc_search_in_file_buf_list.h"
+#include "archcrawler/matchers/uc_search_regex_in_filebuf_list.h"
+#include "archcrawler/memory_loader/uc_load_file_list.h"
+#include "archcrawler/archcrawler_config.h"
 
 void PrintCppStandard() {
   if (__cplusplus == 201703L)
@@ -71,9 +71,9 @@ int main(int argc, const char* argv[]) {
     exit(0);
   }
   auto app_logger = spdlog::stdout_color_mt(app_logger_name);
-  auto regscan_file_list_logger = spdlog::stdout_color_mt(regscan_file_list_logger_name);
-  auto regscan_memory_loader_logger = spdlog::stdout_color_mt(regscan_memory_loader_logger_name);
-  auto regscan_matchers_logger = spdlog::stdout_color_mt(regscan_matchers_logger_name);
+  auto archcrawler_file_list_logger = spdlog::stdout_color_mt(archcrawler_file_list_logger_name);
+  auto archcrawler_memory_loader_logger = spdlog::stdout_color_mt(archcrawler_memory_loader_logger_name);
+  auto archcrawler_matchers_logger = spdlog::stdout_color_mt(archcrawler_matchers_logger_name);
 
   // Enable logging
   switch (result.count("verbose")) {
@@ -91,8 +91,8 @@ int main(int argc, const char* argv[]) {
       break;
   }
 
-  regscan_file_list_logger->set_level(spdlog::level::off);
-  regscan_memory_loader_logger->set_level(spdlog::level::off);
+  archcrawler_file_list_logger->set_level(spdlog::level::off);
+  archcrawler_memory_loader_logger->set_level(spdlog::level::off);
   app_logger->set_level(spdlog::level::off);
 
   spdlog::info("Collecting a list of files to be loaded.");

@@ -4,9 +4,9 @@ include(cmake/print_target_properties.cmake)
 
 # Project name and a few useful settings. Other commands can pick up the results
 project(
-  TestProject 
+  archcrawler 
   VERSION 0.1
-  DESCRIPTION "An example project with CMake"
+  DESCRIPTION "A program for architectural analysis of c++ modules"
   LANGUAGES CXX)
 
 set (CMAKE_CXX_STANDARD 11)

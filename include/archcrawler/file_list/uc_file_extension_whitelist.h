@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "regscan/file_list/file_list_logger.h"
-#include "regscan/file_list/i_dir_entry_predicate.h"
+#include "archcrawler/file_list/file_list_logger.h"
+#include "archcrawler/file_list/i_dir_entry_predicate.h"
 
 class UcFileExtensionWhitelist : public IDirEntryPredicate, private FileListLogger {
  public:

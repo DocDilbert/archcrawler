@@ -92,6 +92,7 @@ int main(int argc, const char* argv[]) {
   }
 
   regscan_file_list_logger->set_level(spdlog::level::off);
+  regscan_memory_loader_logger->set_level(spdlog::level::off);
   app_logger->set_level(spdlog::level::off);
 
   spdlog::info("Collecting a list of files to be loaded.");

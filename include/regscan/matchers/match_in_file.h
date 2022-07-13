@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "regscan/matchers/match.h"
+#include "regscan/matchers/match_group.h"
 
 struct MatchInFile {
   std::string filename;
-  Match match;
+  MatchGroup match_group;
 };

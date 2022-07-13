@@ -41,7 +41,7 @@ class MatchInFileIter : public IIter<MatchInFile> {
     MatchInFile match_in_file;
 
     match_in_file.filename = fb->GetFilename();
-    match_in_file.match = mfbuf_iter_->Current();
+    match_in_file.match_group = mfbuf_iter_->Current();
 
     return match_in_file;
   }
@@ -51,7 +51,7 @@ class MatchInFileIter : public IIter<MatchInFile> {
   IMatcher& matcher_;
   file_buf_iter fit_;
   file_buf_iter fend_;
-  std::unique_ptr<IIter<Match>> mfbuf_iter_;
+  std::unique_ptr<IIter<MatchGroup>> mfbuf_iter_;
 };
 
 UcSearchInFileBufList::UcSearchInFileBufList(ISearchFileBuf& search_file_buf_uc) : MatchersLogger(), search_file_buf_uc_(search_file_buf_uc) {}

@@ -11,7 +11,7 @@ class UcSearchFileBuf : private MatchersLogger, public ISearchFileBuf {
  public:
   UcSearchFileBuf();
 
-  std::unique_ptr<IIter<Match>> Search(IMatcher& matcher, const file_buf_ptr& file_buf) override;
+  std::unique_ptr<IIter<MatchGroup>> Search(IMatcher& matcher, const file_buf_ptr& file_buf) override;
 
  private:
 };

@@ -14,7 +14,7 @@ struct Regex::impl {
   pcre2_match_data* match_data = nullptr;
 };
 
-class MatchIter : public IIter<Match> {
+class MatchIter : public IIter<MatchGroup> {
  public:
   MatchIter(pcre2_match_data* match_data, int no_of_matches) : match_data_(match_data), no_of_matches_(no_of_matches) {
     idx_ = 0;
@@ -31,10 +31,10 @@ class MatchIter : public IIter<Match> {
   }
   void Next() override { idx_++; }
 
-  Match Current() override {
-    Match rmatch;
-    rmatch.begin_pos = ovector_[idx_ * 2];
-    rmatch.end_pos = ovector_[idx_ * 2 + 1];
+  MatchGroup Current() override {
+    MatchGroup rmatch;
+    rmatch.begin_pos = static_cast<int>(ovector_[idx_ * 2]);
+    rmatch.end_pos = static_cast<int>(ovector_[idx_ * 2 + 1]);
     rmatch.length = rmatch.end_pos - rmatch.begin_pos;
 
     return rmatch;
@@ -51,7 +51,7 @@ Regex::Regex(std::string pattern) : pimpl_(new Regex::impl()) {
   logger_ = spdlog::get(app_logger_name);
 
   int errornumber;
-  int rc;
+  //int rc;
 
   PCRE2_SIZE erroroffset;
 
@@ -77,12 +77,12 @@ Regex::~Regex() {
   pcre2_code_free(pimpl_->re);
 }
 
-std::unique_ptr<IIter<Match>> Regex::Search(const char* subject) {
+std::unique_ptr<IIter<MatchGroup>> Regex::Search(const char* subject) {
   // free last match if available
   pcre2_match_data_free(pimpl_->match_data);
 
   int rc;
-  int i;
+  //int i;
 
   PCRE2_SIZE* ovector;
 

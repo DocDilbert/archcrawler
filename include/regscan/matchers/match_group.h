@@ -1,6 +1,6 @@
 #pragma once
 
-struct Match {
+struct MatchGroup {
   int begin_pos;
   int end_pos;
   int length;
